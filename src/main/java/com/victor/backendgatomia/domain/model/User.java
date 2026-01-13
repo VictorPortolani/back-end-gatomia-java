@@ -37,7 +37,7 @@ public class User {
     private String phone;
 
     @Column(name = "date_registration", nullable = false)
-    private LocalDate dateRegistration = LocalDateTime.now();
+    private LocalDateTime dateRegistration = LocalDateTime.now();
 
     @Column(name = "is_active")
     private boolean isActive = true; //Inicia como ativo
