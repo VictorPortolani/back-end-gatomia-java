@@ -38,7 +38,7 @@ public class UserService {
         // Se não mandar Role, define como USER
         newUser.setRole(dto.getRole() != null ? dto.getRole() : UserRole.USER);
 
-        // TODO: Futuramente usaremos BCrypt aqui. Por enquanto vai puro.
+        // TODO: futuramente será usado o BYCRYPT
         newUser.setPasswordHash(dto.getPassword());
 
         // 3. Salvar no Banco
