@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity // 1. Diz que isso é uma tabela no banco SQL
-@Table(name = "users") //2. Declara o nome da tabela
+@Table(name = "tb_users") //2. Declara o nome da tabela
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
