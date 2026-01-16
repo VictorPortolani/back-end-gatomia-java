@@ -7,6 +7,9 @@ import com.victor.backendgatomia.domain.model.User;
 import com.victor.backendgatomia.domain.model.enums.UserRole;
 import com.victor.backendgatomia.domain.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +19,12 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private  UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional // Garante o Rollback em caso de erro
     public UserResponseDTO createUser(UserCreateDTO dto) {
@@ -45,7 +49,7 @@ public class UserService {
         newUser.setRole(dto.getRole() != null ? dto.getRole() : UserRole.USER);
 
         // TODO: futuramente será usado o BYCRYPT
-        newUser.setPasswordHash(dto.getPassword());
+        newUser.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
 
         // 3. Salvar no Banco
         User savedUser = userRepository.save(newUser);
