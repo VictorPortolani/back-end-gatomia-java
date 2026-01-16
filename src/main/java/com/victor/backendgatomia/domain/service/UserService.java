@@ -2,6 +2,7 @@ package com.victor.backendgatomia.domain.service;
 
 import com.victor.backendgatomia.api.dto.UserCreateDTO;
 import com.victor.backendgatomia.api.dto.UserResponseDTO;
+import com.victor.backendgatomia.api.dto.UserUpdateDTO;
 import com.victor.backendgatomia.domain.model.User;
 import com.victor.backendgatomia.domain.model.enums.UserRole;
 import com.victor.backendgatomia.domain.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -56,5 +58,20 @@ public class UserService {
                 .stream() //começa o fluxo de dados
                 .map(user -> new UserResponseDTO(user)) //Transforma cada user em DTO
                 .toList(); //fecha a lista
+    }
+
+    public UserResponseDTO updateUser(UUID id, UserUpdateDTO dto){
+
+        //1. Busca no banco
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        //2.Atualiza os dados
+        user.setName(dto.getName());
+        user.setPhone(dto.getPhone());
+
+        //3. Salva o usuário
+        User userSaved = userRepository.save(user);
+
+        return new UserResponseDTO(userSaved);
     }
 }
