@@ -10,6 +10,7 @@ import com.victor.backendgatomia.domain.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,9 +55,10 @@ public class UserService {
     }
 
     public List<UserResponseDTO> getAllUsers(){
-        return userRepository.findAll()
+        //Busca apenas quem deletedAt == null
+        return userRepository.findAllByDeletedAtIsNull()
                 .stream() //começa o fluxo de dados
-                .map(user -> new UserResponseDTO(user)) //Transforma cada user em DTO
+                .map(UserResponseDTO::new)
                 .toList(); //fecha a lista
     }
 
@@ -73,5 +75,14 @@ public class UserService {
         User userSaved = userRepository.save(user);
 
         return new UserResponseDTO(userSaved);
+    }
+
+    public void deleteUser(UUID id){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        user.setDeletedAt(LocalDateTime.now());
+
+        userRepository.save(user);
     }
 }

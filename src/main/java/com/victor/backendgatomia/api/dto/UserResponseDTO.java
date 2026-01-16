@@ -14,7 +14,6 @@ public class UserResponseDTO {
     private String email;
     private String cpf;
     private String phone;
-    private boolean isActive;
     private UserRole role;
 
     //Construtor converte a entidade em DTO (Facilita o service)
@@ -24,7 +23,6 @@ public class UserResponseDTO {
         this.email = user.getEmail();
         this.cpf = user.getCpf();
         this.phone = user.getPhone();
-        this.isActive = user.isActive();
         this.role = user.getRole();
     }
 }

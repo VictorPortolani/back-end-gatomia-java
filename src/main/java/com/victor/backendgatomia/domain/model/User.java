@@ -39,10 +39,11 @@ public class User {
     @Column(name = "date_registration", nullable = false)
     private LocalDateTime dateRegistration = LocalDateTime.now();
 
-    @Column(name = "is_active")
-    private boolean isActive = true; //Inicia como ativo
+    private LocalDateTime deletedAt; //null = ativo
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role = UserRole.USER;
+
+
 }
