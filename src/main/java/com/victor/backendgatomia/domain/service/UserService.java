@@ -5,8 +5,11 @@ import com.victor.backendgatomia.api.dto.UserResponseDTO;
 import com.victor.backendgatomia.domain.model.User;
 import com.victor.backendgatomia.domain.model.enums.UserRole;
 import com.victor.backendgatomia.domain.repository.UserRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -46,5 +49,12 @@ public class UserService {
 
         // 4. Retornar DTO de Resposta (sem senha)
         return new UserResponseDTO(savedUser);
+    }
+
+    public List<UserResponseDTO> getAllUsers(){
+        return userRepository.findAll()
+                .stream() //começa o fluxo de dados
+                .map(user -> new UserResponseDTO(user)) //Transforma cada user em DTO
+                .toList(); //fecha a lista
     }
 }

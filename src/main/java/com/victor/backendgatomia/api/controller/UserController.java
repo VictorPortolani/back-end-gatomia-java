@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController // 1. Diz que é um controller rest (retorna JSON)
 @RequestMapping("/users") //2. Define a rota
 public class UserController {
@@ -26,5 +28,13 @@ public class UserController {
 
         //Retorna status 201(Created) e o corpo dos dados
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> listAll(){
+        List<UserResponseDTO> users = userService.getAllUsers();
+
+        //Retorna status 200 ok
+        return ResponseEntity.ok(users);
     }
 }
